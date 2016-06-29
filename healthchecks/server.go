@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/braintree/manners"
-	"github.com/udacity/ud615/app/handlers"
+	"github.com/frodebjerke/fairytale/handlers"
 	"github.com/udacity/ud615/app/health"
 )
 
