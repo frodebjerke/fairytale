@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/braintree/manners"
+	"github.com/udacity/ud615/app/handlers"
 	"github.com/udacity/ud615/app/health"
 )
 
@@ -17,6 +18,7 @@ func NewServer(addr *string, errChan chan error) {
 
 	healthServer := manners.NewServer()
 	healthServer.Addr = *addr
+	healthServer.Handler = handlers.LoggingHandler(hmux)
 
 	go func() {
 		errChan <- healthServer.ListenAndServe()
