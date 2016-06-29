@@ -12,6 +12,7 @@ import (
 	"github.com/braintree/manners"
 	"github.com/frodebjerke/fairytale/handlers"
 	"github.com/frodebjerke/fairytale/healthchecks"
+	"github.com/frodebjerke/fairytale/storyteller"
 	"github.com/udacity/ud615/app/health"
 )
 
@@ -30,8 +31,10 @@ func main() {
 
 	healthchecks.NewServer(healthAddr, errChan)
 
+	stories := storyteller.New()
+
 	hmux := http.NewServeMux()
-	hmux.HandleFunc("/verses", handlers.ReceiveDataHandler)
+	hmux.HandleFunc("/verses", handlers.ReceiveDataHandler(stories))
 
 	httpServer := manners.NewServer()
 	httpServer.Addr = *httpAddr
