@@ -9,12 +9,6 @@
 			"revisionTime": "2016-04-18T04:36:13Z"
 		},
 		{
-			"checksumSHA1": "ouwxcTfpP66aE1ASuuoQYge2umk=",
-			"path": "github.com/udacity/ud615/app/handlers",
-			"revision": "d758172ef5449d74190cf0023dceda570b18888a",
-			"revisionTime": "2016-05-19T01:21:17Z"
-		},
-		{
 			"checksumSHA1": "9vM10Z7n7tN0X4TS7ChKesn7dzU=",
 			"path": "github.com/udacity/ud615/app/health",
 			"revision": "d758172ef5449d74190cf0023dceda570b18888a",

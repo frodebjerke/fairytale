@@ -9,8 +9,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/braintree/manners"
-	"github.com/udacity/ud615/app/handlers"
+	"github.com/frodebjerke/fairytale/healthchecks"
 	"github.com/udacity/ud615/app/health"
 )
 
@@ -25,19 +24,7 @@ func main() {
 
 	errChan := make(chan error, 10)
 
-	hmux := http.NewServeMux()
-	hmux.HandleFunc("/healthz", health.HealthzHandler)
-	hmux.HandleFunc("/readiness", health.ReadinessHandler)
-	hmux.HandleFunc("/healthz/status", health.HealthzStatusHandler)
-	hmux.HandleFunc("/readiness/status", health.ReadinessStatusHandler)
-
-	healthServer := manners.NewServer()
-	healthServer.Addr = *healthAddr
-	healthServer.Handler = handlers.LoggingHandler(hmux)
-
-	go func() {
-		errChan <- healthServer.ListenAndServe()
-	}()
+	healthchecks.NewServer(healthAddr, errChan)
 
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
