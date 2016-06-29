@@ -12,7 +12,7 @@ type envelope struct {
 
 type reply struct {
 	Data   envelope `json:"data"`
-	Status string   `JSON:"status"`
+	Status string   `json:"status"`
 }
 
 // ReceiveDataHandler accepts data
