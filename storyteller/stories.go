@@ -28,20 +28,21 @@ type Stories struct {
 // New creates a storyteller
 func New() Stories {
 	stories := Stories{make(chan StoryCrypt, 10)}
+	storyteller := NewStoryteller()
 
 	go func() {
 		for {
 			select {
 			case sc := <-stories.Line:
 				if sc.Ready {
-					log.Println(sc.Story.Key, "ready!")
-					err := Tell(sc.Story)
+					log.Println(sc.Story.Key, "ready!", sc.Tries)
+					err := storyteller.Tell(sc.Story)
 					if err != nil {
 						sc.Ready = false
 						sc.Tries = sc.Tries + 1
 						stories.Line <- sc
 					}
-				} else if sc.Rcvd.Add(1 * time.Second).Before(time.Now()) {
+				} else if sc.Rcvd.Add(10 * time.Millisecond).Before(time.Now()) {
 					log.Println(sc.Story.Key, "timeout complete")
 					sc.Ready = true
 					stories.Line <- sc

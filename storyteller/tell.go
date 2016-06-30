@@ -7,25 +7,29 @@ import (
 	"net/http"
 )
 
-func createHTTPClient() *http.Client {
+// Storyteller ...
+type Storyteller struct {
+	Client *http.Client
+}
+
+// NewStoryteller ...
+func NewStoryteller() Storyteller {
 	client := &http.Client{
 		Transport: &http.Transport{
 			MaxIdleConnsPerHost: 5,
 		},
 	}
 
-	return client
+	return Storyteller{client}
 }
 
 // Tell another node
-func Tell(story Story) error {
+func (st Storyteller) Tell(story Story) error {
 
 	var (
 		host = "http://localhost:8080"
 		path = "/verses"
 	)
-
-	httpClient := createHTTPClient()
 
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(story)
@@ -35,7 +39,7 @@ func Tell(story Story) error {
 		return err
 	}
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
-	_, err = httpClient.Do(req)
+	_, err = st.Client.Do(req)
 	if err != nil {
 		return err
 	}
